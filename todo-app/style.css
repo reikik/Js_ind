@@ -1,0 +1,357 @@
+/* ==========================================================================
+   1. СБРОС СТИЛЕЙ И БАЗОВЫЕ НАСТРОЙКИ
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333333;
+    line-height: 1.6;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   2. ОСНОВНОЙ КОНТЕЙНЕР ПРИЛОЖЕНИЯ
+   ========================================================================== */
+.app-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 580px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+    padding: 30px;
+}
+
+header {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 24pt;
+    color: #1e293b;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* ==========================================================================
+   3. ФОРМА ДОБАВЛЕНИЯ ЗАДАЧИ
+   ========================================================================== */
+#todo-form {
+    margin-bottom: 25px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+#task-input {
+    flex: 2;
+    padding: 12px 16px;
+    font-size: 11pt;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+#task-input:focus {
+    border-color: #3b82f6;
+}
+
+#priority-select {
+    flex: 1;
+    padding: 12px;
+    font-size: 10pt;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    cursor: pointer;
+    outline: none;
+}
+
+#priority-select:focus {
+    border-color: #3b82f6;
+}
+
+#todo-form button {
+    padding: 12px 20px;
+    font-size: 11pt;
+    font-weight: 600;
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#todo-form button:hover {
+    background-color: #2563eb;
+}
+
+/* Ошибки валидации */
+.error-msg {
+    color: #dc2626;
+    font-size: 9.5pt;
+    margin-top: 8px;
+    padding-left: 4px;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================================================
+   4. БЛОК УПРАВЛЕНИЯ (ФИЛЬТРЫ, ПОИСК, СОРТИРОВКА)
+   ========================================================================== */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 10pt;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+}
+
+#search-input:focus {
+    border-color: #94a3b8;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 9.5pt;
+    font-weight: 500;
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.filter-btn.active {
+    background-color: #1e293b;
+    color: #ffffff;
+}
+
+#sort-select {
+    padding: 8px 12px;
+    font-size: 9.5pt;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    color: #334155;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   5. СПИСОК ЗАДАЧ (ДИНАМИЧЕСКИЙ DOM)
+   ========================================================================== */
+.todo-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+/* Визуализация приоритетов через левую рамку (Критерий аккуратного UI) */
+.priority-high {
+    border-left: 5px solid #ef4444;
+}
+
+.priority-medium {
+    border-left: 5px solid #f59e0b;
+}
+
+.priority-low {
+    border-left: 5px solid #10b981;
+}
+
+.todo-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+/* Чекбокс изменения статуса */
+.toggle-status {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin-right: 14px;
+}
+
+/* Текст задачи */
+.task-text {
+    flex: 1;
+    font-size: 11pt;
+    color: #334155;
+    word-break: break-word;
+    transition: color 0.2s ease;
+}
+
+/* Стили для завершенной задачи */
+.todo-item.completed {
+    background-color: #f8fafc;
+    opacity: 0.6;
+}
+
+.todo-item.completed .task-text {
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+/* Кнопка удаления */
+.delete-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 18pt;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+    margin-left: 10px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.delete-btn:hover {
+    color: #ef4444;
+    transform: scale(1.15);
+}
+
+/* Состояние пустого списка */
+.empty-list {
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+    padding: 20px 0;
+}
+
+/* ==========================================================================
+   6. МОДАЛЬНОЕ ОКНО (ДОПОЛНИТЕЛЬНЫЙ КРИТЕРИЙ)
+   ========================================================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6); /* Полупрозрачный темный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content p {
+    font-size: 12pt;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    padding: 10px 18px;
+    font-size: 10pt;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 0 6px;
+    transition: background-color 0.2s ease;
+}
+
+#modal-confirm {
+    background-color: #dc2626;
+    color: #ffffff;
+}
+
+#modal-confirm:hover {
+    background-color: #b91c1c;
+}
+
+#modal-close {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+#modal-close:hover {
+    background-color: #cbd5e1;
+}
+
+/* Класс-утилита для скрытия элементов */
+.hidden {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   7. АДАПТИВНОСТЬ (МЕДИА-ЗАПРОСЫ)
+   ========================================================================== */
+@media (max-width: 500px) {
+    body {
+        padding: 15px 10px;
+    }
+
+    .app-container {
+        padding: 20px 15px;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    #priority-select, #todo-form button {
+        width: 100%;
+    }
+    
+    .controls {
+        gap: 10px;
+    }
+}
